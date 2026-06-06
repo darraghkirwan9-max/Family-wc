@@ -203,8 +203,8 @@ const ScoreInput = ({ value, onChange, disabled }) => (
 const TextInput = ({ value, onChange, placeholder, type = 'text' }) => (
   <input style={{ background: C.bg, border: `1px solid ${C.border}`, borderRadius: 8, padding: '9px 12px', color: C.white, fontSize: 14, width: '100%', outline: 'none' }}
     type={type} value={value} onChange={e => onChange(e.target.value)} placeholder={placeholder} />
-  
-)function MatchCard({ match, name, family, reveal, submission, onSubmit }) {
+)
+function MatchCard({ match, name, family, reveal, submission, onSubmit }) {
  const [scoreA, setScoreA] = useState('')
  const [scoreB, setScoreB] = useState('')
  const [submitting, setSubmitting] = useState(false)

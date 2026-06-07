@@ -633,6 +633,58 @@ function Leaderboard() {
    </div>
  )
 }
+function HelpTab() {
+  return (
+    <div className="fade-up">
+      <Card style={{ marginBottom: 12 }}>
+        <p style={{ fontFamily: "'Syne'", fontWeight: 800, fontSize: 16, marginBottom: 12 }}>⚽ Scoring</p>
+        <div style={{ display: 'flex', gap: 12, marginBottom: 8 }}>
+          <div style={{ flex: 1, background: C.bg, borderRadius: 8, padding: 12, textAlign: 'center' }}>
+            <p style={{ fontFamily: "'Syne'", fontSize: 28, fontWeight: 800, color: C.green }}>+2</p>
+            <p style={{ fontSize: 13, color: C.muted, marginTop: 4 }}>Correct result</p>
+          </div>
+          <div style={{ flex: 1, background: C.bg, borderRadius: 8, padding: 12, textAlign: 'center' }}>
+            <p style={{ fontFamily: "'Syne'", fontSize: 28, fontWeight: 800, color: '#FFD700' }}>+5</p>
+            <p style={{ fontSize: 13, color: C.muted, marginTop: 4 }}>Exact score 🎯</p>
+          </div>
+        </div>
+        <p style={{ fontSize: 13, color: C.muted }}>Predict the exact score for maximum points. Get the result right (win/draw/loss) for +2 even if the score is wrong.</p>
+      </Card>
+
+      <Card style={{ marginBottom: 12 }}>
+        <p style={{ fontFamily: "'Syne'", fontWeight: 800, fontSize: 16, marginBottom: 10 }}>🏆 Family Leaderboard</p>
+        <p style={{ fontSize: 13, color: C.muted, marginBottom: 8 }}>Each day, the <strong style={{ color: C.white }}>top 3 scores</strong> from each family count toward that family's total.</p>
+        <p style={{ fontSize: 13, color: C.muted, marginBottom: 8 }}>This means every family competes fairly regardless of how many members are playing — only your best 3 performers each day count.</p>
+        <p style={{ fontSize: 13, color: C.muted }}>Scores accumulate across the whole tournament.</p>
+      </Card>
+
+      <Card style={{ marginBottom: 12 }}>
+        <p style={{ fontFamily: "'Syne'", fontWeight: 800, fontSize: 16, marginBottom: 10 }}>📅 Tournament</p>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+          {[
+            ['Group Stage', 'Jun 11 – Jun 27'],
+            ['Round of 32', 'Jun 29 – Jul 2'],
+            ['Round of 16', 'Jul 4 – Jul 6'],
+            ['Quarter-finals', 'Jul 8 – Jul 9'],
+            ['Semi-finals', 'Jul 14 – Jul 15'],
+            ['Final', 'Jul 19'],
+          ].map(([round, dates]) => (
+            <div key={round} style={{ display: 'flex', justifyContent: 'space-between', padding: '8px 0', borderBottom: `1px solid ${C.border}` }}>
+              <span style={{ fontSize: 13, fontWeight: 600 }}>{round}</span>
+              <span style={{ fontSize: 13, color: C.muted }}>{dates}</span>
+            </div>
+          ))}
+        </div>
+      </Card>
+
+      <Card>
+        <p style={{ fontFamily: "'Syne'", fontWeight: 800, fontSize: 16, marginBottom: 10 }}>🔄 Switching Player</p>
+        <p style={{ fontSize: 13, color: C.muted, marginBottom: 8 }}>Sharing a phone? Tap your name in the top right corner to switch to a different player.</p>
+        <p style={{ fontSize: 13, color: C.muted }}>Each person's predictions are saved separately — switching player doesn't affect anyone else's entries.</p>
+      </Card>
+    </div>
+  )
+}
 
 export default function App() {
  const [view, setView] = useState('play')
@@ -670,7 +722,7 @@ export default function App() {
      <Header name={name} family={family} isAdmin={adminUnlocked} onSwitch={switchUser} onAdminClick={() => setShowAdmin(true)} />
      <div style={{ maxWidth: 600, margin: '0 auto', padding: 24 }}>
        <div style={{ display: 'flex', gap: 4, marginBottom: 24, background: C.surface, borderRadius: 10, padding: 4, border: `1px solid ${C.border}` }}>
-         {[['play', '⚽ Predict'], ['schedule', '📅 Schedule'], ['board', '🏆 Leaderboard']].map(([v, label]) => (
+         {[['play', '⚽ Predict'], ['schedule', '📅 Schedule'], ['board', '🏆 Leaderboard'],['help', '❓ Help']].map(([v, label]) => (
            <button key={v} onClick={() => { setView(v); setSwitching(false) }} style={{
              flex: 1, padding: '8px 0', borderRadius: 8, border: 'none',
              background: view === v ? C.white : 'transparent',
@@ -713,6 +765,8 @@ export default function App() {
        {view === 'play' && name && family && !switching && <PlayerView name={name} family={family} />}
        {view === 'schedule' && <ScheduleTab />}
        {view === 'board' && <Leaderboard />}
+       {view === 'help' && <HelpTab />}
+
 
        <div style={{ marginTop: 48, paddingTop: 20, borderTop: `1px solid ${C.border}`, textAlign: 'center' }}>
          {!adminUnlocked ? (

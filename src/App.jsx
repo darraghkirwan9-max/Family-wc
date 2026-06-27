@@ -183,6 +183,13 @@ async function upsertExtraMatch(match) {
 async function deleteExtraMatch(id) {
   await supabase.from('questions').delete().eq('date', id)
 }
+async function getTicker() {
+  const { data } = await supabase.from('ticker').select('*').eq('id', 'main').single()
+  return data || null
+}
+async function upsertTicker(message, active) {
+  await supabase.from('ticker').upsert({ id: 'main', message, active })
+}
 
 const Card = ({ children, style, accent }) => (
   <div style={{ background: C.surface, border: `1px solid ${accent || C.border}`, borderRadius: 12, padding: 20, ...style }}>
@@ -206,8 +213,7 @@ const ScoreInput = ({ value, onChange, disabled }) => (
 )
 const TextInput = ({ value, onChange, placeholder, type = 'text' }) => (
   <input style={{ background: C.bg, border: `1px solid ${C.border}`, borderRadius: 8, padding: '9px 12px', color: C.white, fontSize: 14, width: '100%', outline: 'none' }}
-    type={type} value={value} onChange={e => onChange(e.target.value)} placeholder={placeholder} />
-)
+    type={type} value={value} onChange={e => onChange(e.target.value)} placeholder={
 function MatchCard({ match, name, family, reveal, submission, onSubmit }) {
   const [scoreA, setScoreA] = useState('')
   const [scoreB, setScoreB] = useState('')
@@ -617,6 +623,26 @@ function Leaderboard() {
           </div>
         )
       })}
+    </div>
+  )
+}
+function NewsTicker({ message }) {
+  if (!message) return null
+  return (
+    <div style={{ background: '#E63946', overflow: 'hidden', padding: '8px 0', borderBottom: `1px solid #C0303C` }}>
+      <div style={{
+        display: 'inline-block',
+        whiteSpace: 'nowrap',
+        animation: 'ticker 20s linear infinite',
+      }}>
+        <span style={{ fontSize: 13, fontWeight: 600, color: C.white, paddingRight: 80 }}>
+          📰 {message}
+        </span>
+        <span style={{ fontSize: 13, fontWeight: 600, color: C.white, paddingRight: 80 }}>
+          📰 {message}
+        </span>
+      </div>
+      <style>{`@keyframes ticker { from { transform: translateX(100vw); } to { transform: translateX(-100%); } }`}</style>
     </div>
   )
 }
